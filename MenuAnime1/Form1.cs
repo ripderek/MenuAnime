@@ -10,12 +10,9 @@ using System.Windows.Forms;
 
 namespace MenuAnime1
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IFormularioComunicador
     {
-        //Instanciar el Formulario Padre para enviarle info 
-        // Declarar un delegado y un evento
-        public delegate void EnviarDatosEventHandler(string datos);
-        public event EnviarDatosEventHandler EnviarDatosEvent;
+        public event Action<string> EnviarDatosEvent;
 
         // Método para enviar datos al formulario padre
         private void EnviarDatosAlPadre(string datos)

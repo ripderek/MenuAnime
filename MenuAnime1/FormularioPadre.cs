@@ -10,8 +10,10 @@ using System.Windows.Forms;
 
 namespace MenuAnime1
 {
-    public partial class FormularioPadre : Form
+    public partial class FormularioPadre : Form, IFormularioComunicador
     {
+        public event Action<string> EnviarDatosEvent;
+
         Color PrimaryColor = Color.FromArgb(158, 12, 43);
         Color SecondColor = Color.FromName("DimGray");
         public FormularioPadre()
@@ -44,9 +46,11 @@ namespace MenuAnime1
 
 
             //por defecto abrir un formulario hijo 
-            Form1 form1 = new Form1();
-            form1.EnviarDatosEvent += FormularioHijo_EnviarDatosEvent; //esto funciona para que el formulario hijo pueda enviar info al formulario padre
-            AbrirFormulario(form1);
+            FormularioHijo_EnviarDatosEvent("Form1");
+
+            //Form1 form1 = new Form1();
+            //form1.EnviarDatosEvent += FormularioHijo_EnviarDatosEvent; //esto funciona para que el formulario hijo pueda enviar info al formulario padre
+            //AbrirFormulario(form1);
         }
         //para abrir los formularios hijos xdxd skere modo diablo 
         private Form formularioActivo = null;
@@ -71,6 +75,9 @@ namespace MenuAnime1
         //para evitar usar case o if anidados
         private void FormularioHijo_EnviarDatosEvent(string datos)
         {
+            //ver el dato obtenido 
+            MessageBox.Show("Esto obtengo del formulario hijo: "+datos);
+
             //Para abrir un formulario enviando el nombre del formulario para no hacer un case when o if concatenados 
             string nombreFormulario = datos; // Reemplaza con el nombre de tu formulario
 
@@ -84,8 +91,21 @@ namespace MenuAnime1
                 //en este caso tengo que enviarle la funcion que abre el formulario dentro del panel y tambien adjuntarle los eventos del padre
                 Form formulario = (Form)Activator.CreateInstance(tipoFormulario);
                 //formulario.EnviarDatosEvent += FormularioHijo_EnviarDatosEvent; //esto funciona para que el formulario hijo pueda enviar info al formulario padre
-                
-                formulario.Show(); // Muestra el formulario
+
+
+                //Verifica si tiene el evento para retornar datos 
+                if (formulario is IFormularioComunicador comunicador)
+                {
+                    comunicador.EnviarDatosEvent += FormularioHijo_EnviarDatosEvent;
+                }
+                else
+                {
+                    MessageBox.Show("El formulario no retorna datos porque no tiene la funcion");
+                }
+
+                AbrirFormulario(formulario); //abre el formulario dentro del panel 
+
+                //formulario.Show(); // Muestra el formulario
             }
             else
             {

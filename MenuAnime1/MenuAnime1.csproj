@@ -79,6 +79,7 @@
     <Compile Include="FormularioPadre.Designer.cs">
       <DependentUpon>FormularioPadre.cs</DependentUpon>
     </Compile>
+    <Compile Include="IFormularioComunicador.cs" />
     <Compile Include="ListaAnimes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +93,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormularioPadre.resx">
       <DependentUpon>FormularioPadre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListaAnimes.resx">
+      <DependentUpon>ListaAnimes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
